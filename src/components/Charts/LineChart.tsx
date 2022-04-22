@@ -51,13 +51,22 @@ const LineChart: React.FC<LineChartProps> = ({ data, padding = 30 }) => {
       if (index === 0) return [];
       const { value: prevValue } = data[index - 1];
 
-      const currentX = map(
-        index,
-        minXValue,
-        maxXValue,
-        0 + padding,
-        width - padding
-      );
+      const detailsVisible = index !== 0 && index !== maxXValue;
+
+      const xOutMin = detailsVisible ? 0 + padding : 0;
+      const xOutMax = detailsVisible ? 0 + width - padding : width;
+
+      const currentX = map(index, minXValue, maxXValue, xOutMin, xOutMax);
+
+      const previousX = map(index - 1, minXValue, maxXValue, xOutMin, xOutMax);
+
+//       const currentX = map(
+//         index,
+//         minXValue,
+//         maxXValue,
+//         0 + padding,
+//         width - padding
+//       );
 
       const currentY = map(
         value,
@@ -67,13 +76,13 @@ const LineChart: React.FC<LineChartProps> = ({ data, padding = 30 }) => {
         0 + padding - TOP_PADDING
       );
 
-      const previousX = map(
-        index - 1,
-        minXValue,
-        maxXValue,
-        0 + padding,
-        width - padding
-      );
+//       const previousX = map(
+//         index - 1,
+//         minXValue,
+//         maxXValue,
+//         0 + padding,
+//         width - padding
+//       );
 
       const previousY = map(
         prevValue,
