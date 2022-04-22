@@ -10,10 +10,8 @@ const TEXT_PADDING = 25;
 const R = 5;
 
 export type Point = {
-	x1: number,
-	y1: number,
-	x2: number,
-	y2: number,
+	x: number,
+	y: number,
 	point: boolean,
 	hour: string,
 	nimTemperature: number,
@@ -48,9 +46,6 @@ const LineChart: React.FC<LineChartProps> = ({ data, padding = 30 }) => {
 
   const points = data.reduce(
     (result: Point[], { value, hour, nimTemperature, maxTemperature, icon }, index) => {
-      if (index === 0) return [];
-      const { value: prevValue } = data[index - 1];
-
       const detailsVisible = index !== 0 && index !== maxXValue;
 
       const xOutMin = detailsVisible ? 0 + padding : 0;
@@ -58,49 +53,21 @@ const LineChart: React.FC<LineChartProps> = ({ data, padding = 30 }) => {
 
       const currentX = map(index, minXValue, maxXValue, xOutMin, xOutMax);
 
-      const previousX = map(index - 1, minXValue, maxXValue, xOutMin, xOutMax);
-
-//       const currentX = map(
-//         index,
-//         minXValue,
-//         maxXValue,
-//         0 + padding,
-//         width - padding
-//       );
-
       const currentY = map(
         value,
         maxYValue,
         minYValue,
-        height - padding - TOP_PADDING,
-        0 + padding - TOP_PADDING
-      );
-
-//       const previousX = map(
-//         index - 1,
-//         minXValue,
-//         maxXValue,
-//         0 + padding,
-//         width - padding
-//       );
-
-      const previousY = map(
-        prevValue,
-        maxYValue,
-        minYValue,
-        height - padding - TOP_PADDING,
-        0 + padding - TOP_PADDING
+        height - padding,
+        0 + padding
       );
 
       const line = {
-        x1: previousX,
-        y1: previousY,
-        x2: currentX,
-        y2: currentY,
-        point: index === 3,
-        hour,
-        nimTemperature,
-        maxTemperature,
+        x1: currentX,
+        y1: currentY,
+        point: index === 6,
+        hour: detailsVisible ? hour : null,
+        nimTemperature: detailsVisible ? nimTemperature : null,
+        maxTemperature: detailsVisible ? maxTemperature : null,
         icon
       };
 
