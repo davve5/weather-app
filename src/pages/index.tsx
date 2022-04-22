@@ -4,13 +4,7 @@ import Image from 'next/image'
 import partlyCloudyDay from "@bybas/weather-icons/design/fill/animation-ready/partly-cloudy-day.svg";
 import LineChart from '../components/Charts/LineChart';
 
-import {TODAY} from '../mock/TODAY'
-
-const STATS = [
-  { name: 'Pressure', value: '810mb' },
-  { name: 'Visibility', value: '5 Km' },
-  { name: 'Humidity', value: '94%' },
-]
+import { TODAY, STATS } from '../mock/weather'
 
 const Home: NextPage = () => {
   return (
