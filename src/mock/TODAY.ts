@@ -1,64 +1,57 @@
-import type { NextPage } from 'next'
-import LineChart from '../components/Charts/LineChart';
+import rainIcon from "@bybas/weather-icons/design/fill/animation-ready/rain.svg";
+import cloudyIcon from "@bybas/weather-icons/design/fill/animation-ready/cloudy.svg";
+import partlyCloudyDayIcon from "@bybas/weather-icons/design/fill/animation-ready/partly-cloudy-day.svg";
+import clearDayIcon from "@bybas/weather-icons/design/fill/animation-ready/clear-day.svg";
 
-const DATA = [
+
+export const TODAY = [
   {
     value: 22,
     hour: "2 AM",
     nimTemperature: 18,
     maxTemperature: 22,
-    icon: "icon"
+    icon: rainIcon
   },
   {
     value: 26,
     hour: "4 AM",
     nimTemperature: 18,
     maxTemperature: 26,
-    icon: "icon"
+    icon: cloudyIcon
   },
   {
     value: 28,
     hour: "10 PM",
     nimTemperature: 18,
     maxTemperature: 28,
-    icon: "icon"
+    icon: partlyCloudyDayIcon
   },
   {
     value: 28,
     hour: "1 AM",
     nimTemperature: 18,
     maxTemperature: 28,
-    icon: "icon"
+    icon: cloudyIcon
   },
   {
     value: 24,
     hour: "4 AM",
     nimTemperature: 17,
     maxTemperature: 24,
-    icon: "icon"
+    icon: clearDayIcon
   },
   {
     value: 24,
     hour: "7 AM",
     nimTemperature: 17,
     maxTemperature: 24,
-    icon: "icon"
+    icon: clearDayIcon
   },
   {
     value: 24,
     hour: "10 AM",
     nimTemperature: 17,
     maxTemperature: 24,
-    icon: "icon"
+    icon: clearDayIcon
   }
 ];
-
-const Example: NextPage = () => {
-  return (
-    <main className="p-5 flex flex-col h-screen">
-    	<LineChart data={DATA} />
-    </main>
-  )
-}
-
-export default Example

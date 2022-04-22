@@ -4,43 +4,7 @@ import Image from 'next/image'
 import partlyCloudyDay from "@bybas/weather-icons/design/fill/animation-ready/partly-cloudy-day.svg";
 import LineChart from '../components/Charts/LineChart';
 
-const DATA = [
-  {
-    value: 26,
-    hour: "4 AM",
-    nimTemperature: 18,
-    maxTemperature: 26,
-    icon: "icon"
-  },
-  {
-    value: 28,
-    hour: "10 PM",
-    nimTemperature: 18,
-    maxTemperature: 28,
-    icon: "icon"
-  },
-  {
-    value: 28,
-    hour: "1 AM",
-    nimTemperature: 18,
-    maxTemperature: 28,
-    icon: "icon"
-  },
-  {
-    value: 24,
-    hour: "4 AM",
-    nimTemperature: 17,
-    maxTemperature: 24,
-    icon: "icon"
-  },
-  {
-    value: 24,
-    hour: "7 AM",
-    nimTemperature: 17,
-    maxTemperature: 24,
-    icon: "icon"
-  }
-];
+import {TODAY} from '../mock/TODAY'
 
 const STATS = [
   { name: 'Pressure', value: '810mb' },
@@ -64,19 +28,19 @@ const Home: NextPage = () => {
         <span className='font-semibold text-5xl'>28&deg;</span>
         <span className='text-xl text-slate-500'>Prartly Cloudy</span>
       </div>
-      <section className='p-4 bg-slate-100 rounded-xl text-xl mt-auto space-y-5'>
-        <span className='text-2xl'>Today</span>
-        <div className='flex justify-between'>
-          {STATS.map(({ name, value }) => (
-            <div key={name} className='flex flex-col items-center justify-center'>
-              <span className='text-slate-500'>{name}</span>
-              <span className='font-semibold'>{value}</span>
-            </div>
-          ))}
-        </div>
-          <div className='pt-10'>
-            <LineChart data={DATA} />
+      <section className='bg-slate-100 rounded-xl text-xl mt-auto'>
+        <div className='p-4 space-y-5'>
+          <span className='text-2xl'>Today</span>
+          <div className='flex justify-between'>
+            {STATS.map(({ name, value }) => (
+              <div key={name} className='flex flex-col items-center justify-center'>
+                <span className='text-slate-500'>{name}</span>
+                <span className='font-semibold'>{value}</span>
+              </div>
+            ))}
           </div>
+        </div>
+        <LineChart data={TODAY} />
       </section>
     </main>
   )
