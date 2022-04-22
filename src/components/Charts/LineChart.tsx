@@ -13,17 +13,17 @@ export type Point = {
 	x: number,
 	y: number,
 	point: boolean,
-	hour: string,
-	nimTemperature: number,
-	maxTemperature: number,
+	hour: string | null,
+	nimTemperature: number | null,
+	maxTemperature: number | null,
 	icon: string
 }
 
 export type Data = {
 	value: number,
 	hour: string,
-	nimTemperature: number,
-	maxTemperature: number,
+	nimTemperature: number | null,
+	maxTemperature: number | null,
 	icon: string,
 }
 
@@ -51,19 +51,19 @@ const LineChart: React.FC<LineChartProps> = ({ data, padding = 30 }) => {
       const xOutMin = detailsVisible ? 0 + padding : 0;
       const xOutMax = detailsVisible ? 0 + width - padding : width;
 
-      const currentX = map(index, minXValue, maxXValue, xOutMin, xOutMax);
+      const x = map(index, minXValue, maxXValue, xOutMin, xOutMax);
 
-      const currentY = map(
+      const y = map(
         value,
         maxYValue,
         minYValue,
-        height - padding,
-        0 + padding
+        height - 2.5 * padding, // height - padding,
+        height - 5 * padding // 0 + padding
       );
 
       const line = {
-        x1: currentX,
-        y1: currentY,
+        x,
+        y,
         point: index === 6,
         hour: detailsVisible ? hour : null,
         nimTemperature: detailsVisible ? nimTemperature : null,
@@ -86,29 +86,32 @@ const LineChart: React.FC<LineChartProps> = ({ data, padding = 30 }) => {
 
   return (
     <svg
-      className="w-full h-full bg-red-200"
+      className="w-full bg-red-200"
+      style={{
+        height: `clamp(500px, 25vh, 500px)`,
+      }}
       ref={svgRef}
     >
       <Path points={points} />
       {points.map(
         (
-          { x1, x2, y1, y2, point, hour, nimTemperature, maxTemperature, icon },
+          { x, y, point, hour, nimTemperature, maxTemperature, icon },
           index
         ) => (
           <React.Fragment key={index}>
             {point && (
               <>
-                <circle cx={x1} cy={y1} r={R * 2.5} fill="rgba(0, 0, 0, 0.1)" />
-                <circle cx={x1} cy={y1} r={R} fill="black" />
+                <circle cx={x} cy={y} r={R * 2.5} fill="rgba(0, 0, 0, 0.1)" />
+                <circle cx={x} cy={y} r={R} fill="black" />
               </>
             )}
             {maxTemperature && (
-              <Text x={x1} y={y1 - 2 * TEXT_PADDING} text={maxTemperature} />
+              <Text x={x} y={y - 2 * TEXT_PADDING} text={maxTemperature} />
             )}
             {nimTemperature && (
-              <Text x={x1} y={y1 - TEXT_PADDING} text={nimTemperature} />
+              <Text x={x} y={y - TEXT_PADDING} text={nimTemperature} />
             )}
-            {hour && <Text x={x1} y={y1 + TEXT_PADDING} text={hour} />}
+            {hour && <Text x={x} y={y + TEXT_PADDING} text={hour} />}
           </React.Fragment>
         )
       )}

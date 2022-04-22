@@ -5,15 +5,14 @@ interface PathProps {
 }
 
 const Path: React.FC<PathProps> = ({ points }) => {
-	const [{ x1, y1 }, ...rest] = points;
+	const [{ x, y }, ...rest] = points;
 
 	return (
 		<path
-			d={`M ${x1} ${y1}` + rest.map(({ x1, y1 }) => `L ${x1} ${y1} `)}
+			d={`M ${x} ${y}` + rest.map(({ x, y }) => `L ${x} ${y} `)}
 			stroke="black"
 			strokeWidth="2"
 			fill="transparent"
-			className="path"
 		/>
 	);
 };
