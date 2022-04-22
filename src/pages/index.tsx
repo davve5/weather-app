@@ -2,79 +2,45 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import partlyCloudyDay from "@bybas/weather-icons/design/fill/animation-ready/partly-cloudy-day.svg";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler
-);
+import LineChart from '../components/Charts/LineChart';
 
-export const options = {
-  plugins: {
-    legend: {
-      display: false
-    },
+const DATA = [
+  {
+    value: 26,
+    hour: "4 AM",
+    nimTemperature: 18,
+    maxTemperature: 26,
+    icon: "icon"
   },
-  elements: {
-    line: {
-      tension: 0.2,
-      borderJoinStyle: 'round',
-      borederWidth: 2,
-      borderColor: 'rgba(0, 0, 0, 1)',
-      fill: 'start',
-      // backgroundColor: 'rgba(0, 0, 0, .3)',
-    },
-    // point: {
-    //   radius: 0,
-    //   hitRadius: 0,
-    // }
+  {
+    value: 28,
+    hour: "10 PM",
+    nimTemperature: 18,
+    maxTemperature: 28,
+    icon: "icon"
   },
-  scales: {
-    xAxis: {
-      display: false,
-    },
-    yAxis: {
-      display: false,
-    },
-    x: {
-      grid: {
-        display: false
-      },
-      ticks: {
-          callback: (value: number, index: number) => labels[index]
-      }
-    },
+  {
+    value: 28,
+    hour: "1 AM",
+    nimTemperature: 18,
+    maxTemperature: 28,
+    icon: "icon"
   },
-};
-
-const labels = ['4 PM', '10 PM', '1 AM', '4 AM', '7 AM'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Today',
-      data: [18, 15, 16, 17, 17, 14],
-      pointBackgroundColor: ['transparent', 'transparent', '#000000', 'transparent', 'transparent', 'transparent'],
-      pointBorderColor: ['transparent', 'transparent', 'rgba(0, 0, 0, 0.2)', 'transparent', 'transparent', 'transparent'],
-      pointBorderWidth: [0, 0, 12, 0, 0, 0]
-    },
-  ],
-};
+  {
+    value: 24,
+    hour: "4 AM",
+    nimTemperature: 17,
+    maxTemperature: 24,
+    icon: "icon"
+  },
+  {
+    value: 24,
+    hour: "7 AM",
+    nimTemperature: 17,
+    maxTemperature: 24,
+    icon: "icon"
+  }
+];
 
 const STATS = [
   { name: 'Pressure', value: '810mb' },
@@ -109,7 +75,7 @@ const Home: NextPage = () => {
           ))}
         </div>
           <div className='pt-10'>
-            <Line options={options} data={data} />
+            <LineChart data={DATA} />
           </div>
       </section>
     </main>
