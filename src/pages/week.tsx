@@ -9,7 +9,7 @@ const CURRENT_AIR_CONDITION = 50;
 
 const Example: NextPage = () => {
   return (
-    <main className="p-5 flex flex-col min-h-screen space-y-5 dark:bg-neutral-900">
+    <main className="p-5 flex flex-col min-h-screen space-y-5">
       <section className='mb-auto'>
         <header className="font-semibold text-2xl mb-5 capitalize dark:text-white">This week</header>
         <ul className='space-y-7'>

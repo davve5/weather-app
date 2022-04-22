@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply bg-white dark:bg-neutral-900
+}
+
 /* .path {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
