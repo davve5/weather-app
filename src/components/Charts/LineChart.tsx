@@ -12,13 +12,14 @@ type Temperature = number | null
 type Hour = string | null
 
 export type Point = {
-	x: number,
-	y: number,
-	point: boolean,
-	hour: Hour,
-	nimTemperature: Temperature,
-	maxTemperature: Temperature,
-	icon: string
+  x: number,
+  y: number,
+  point: boolean,
+  dt: number,
+  temp: number,
+  feels_like: number,
+  icon: string,
+  details_visible: boolean,
 }
 
 interface Weather {
@@ -87,10 +88,11 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
         x,
         y,
         point: index === 3,
-        hour: detailsVisible ? dt : null,
-        temp: detailsVisible ? temp : null,
-        feels_like: detailsVisible ? feels_like : null,
-        icon
+        dt,
+        temp,
+        feels_like,
+        icon,
+        details_visible: detailsVisible
       };
 
       return [...result, line];

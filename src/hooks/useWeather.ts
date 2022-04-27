@@ -89,7 +89,7 @@ export interface WeatherResponse {
 	daily: Daily[];
 }
 
-
+const API_KEY = ''
 
 const useWeather = () => {
 	const { latitude = '33.44', longitude = '-94.04' } = useUserGeolocation()
@@ -99,7 +99,7 @@ const useWeather = () => {
 
 	useEffect(() => {
 		fetch(API_URL).then(res => res.json()).then(data => setWeather(data))
-	});
+	}, [API_URL]);
 	return weather;
 }
 
