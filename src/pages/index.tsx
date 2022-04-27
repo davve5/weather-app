@@ -20,10 +20,13 @@ const convertDtToDate = (dt: number = new Date().getUTCMilliseconds()) => {
   }
 }
 
-const Home: NextPage = ({ weather, ip }: any) => {
+const Home: NextPage = ({ weather, ip, geo }: any) => {
   // const weather = useWeather()
 
   const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
+
+  console.log('ip', ip)
+  console.log(geo, 'geo')
 
   return (
     <main className="p-5 flex flex-col min-h-screen">
@@ -70,9 +73,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
 
   console.log(ip);
+  console.log('cookies', req.cookies);
+
+  const geo = JSON.parse(req.cookies.geo)
 
   return {
-    props: { weather: data, ip },
+    props: { geo, weather: data, ip },
   };
 };
 
