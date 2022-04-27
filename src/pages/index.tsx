@@ -3,34 +3,24 @@ import Image from 'next/image'
 import partlyCloudyDay from "@bybas/weather-icons/design/fill/animation-ready/partly-cloudy-day.svg";
 import LineChart from '../components/Charts/LineChart';
 
+import convertDtToDate from '../helpers/convertDtToDate';
+
 import { TODAY, STATS } from '../mock/weather'
 import API from '../mock/API'
-import useWeather from '../hooks/useWeather';
+import type { WeatherResponse } from '../types';
 
-const convertDtToDate = (dt: number = new Date().getUTCMilliseconds()) => {
-  const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  
-  const date = new Date(dt * 1000)
-  const dayOfWeek = weekday[date.getDay()];
-  const hour = date.getHours();
-  
-  return {
-    dayOfWeek,
-    hour
-  }
+interface HomeProps {
+  weather: WeatherResponse,
+  city: string,
+  country: string,
 }
 
-const Home: NextPage = ({ weather, ip, geo }: any) => {
-  // const weather = useWeather()
-
+const Home: NextPage<HomeProps> = ({ weather, city, country }) => {
   const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
-
-  console.log('ip', ip)
-  console.log(geo, 'geo')
 
   return (
     <main className="p-5 flex flex-col min-h-screen">
-      <h1 className="font-semibold text-3xl">Calicut, Kerala</h1>
+      <h1 className="font-semibold text-3xl">{city}, {country}</h1>
       <span className='text-xl text-slate-500'>{dayOfWeek}, {hour}</span>
       <div className='flex flex-col items-center space-y-2'>
         <Image
@@ -62,23 +52,15 @@ const Home: NextPage = ({ weather, ip, geo }: any) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const location = { latitude: '10.8', longitude: '76.7' }
-	const API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${location.latitude}&lon=${location.longitude}&units=metric&exclude=minutely&appid=${process.env.WEATHER_API_KEY}`
+  const { city, country, latitude, longitude } = JSON.parse(req.cookies.geo)
+
+	const API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=minutely&appid=${process.env.WEATHER_API_KEY}`
   
   const response = await fetch(API_URL);
   const data = await response.json();
 
-  const forwarded = req.headers['x-forwarded-for'];
-
-  const ip = typeof forwarded === 'string' ? forwarded.split(/, /)[0] : req.socket.remoteAddress;
-
-  console.log(ip);
-  console.log('cookies', req.cookies);
-
-  const geo = JSON.parse(req.cookies.geo)
-
   return {
-    props: { geo, weather: data, ip },
+    props: { city, country, weather: data },
   };
 };
 

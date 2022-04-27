@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import useUserGeolocation from "./useUserGeolocation";
 
 export interface Weather {
 	id: number;
@@ -88,20 +86,3 @@ export interface WeatherResponse {
 	hourly: Hourly[];
 	daily: Daily[];
 }
-
-const API_KEY = ''
-
-const useWeather = () => {
-	const { latitude = '33.44', longitude = '-94.04' } = useUserGeolocation()
-	const API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=minutely&appid=${API_KEY}`
-
-	const [weather, setWeather] = useState<WeatherResponse | {}>({});
-
-	useEffect(() => {
-		fetch(API_URL).then(res => res.json()).then(data => setWeather(data))
-	}, [API_URL]);
-	return weather;
-}
-
-
-export default useWeather
