@@ -103,8 +103,8 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
   useEffect(() => {
     const svg = svgRef.current;
     if (svg) {
-      setWidth(svg.clientWidth);
-      setHeight(svg.clientHeight);
+      // setWidth(svg.clientWidth);
+      // setHeight(svg.clientHeight);
     }
   })
 
