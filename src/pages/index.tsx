@@ -5,12 +5,30 @@ import partlyCloudyDay from "@bybas/weather-icons/design/fill/animation-ready/pa
 import LineChart from '../components/Charts/LineChart';
 
 import { TODAY, STATS } from '../mock/weather'
+import useWeather from '../hooks/useWeather';
+
+const convertDtToDate = (dt: number = new Date().getUTCMilliseconds()) => {
+  const weekday = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+  const date = new Date(dt * 1000)
+  const dayOfWeek = weekday[date.getDay()];
+  const hour = date.getHours();
+  
+  return {
+    dayOfWeek,
+    hour
+  }
+}
 
 const Home: NextPage = () => {
+  const weather = useWeather()
+
+  const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
+
   return (
-    <main className="p-5 flex flex-col h-screen">
+    <main className="p-5 flex flex-col min-h-screen">
       <h1 className="font-semibold text-3xl">Calicut, Kerala</h1>
-      <span className='text-xl text-slate-500'>Sunday, 1 AM</span>
+      <span className='text-xl text-slate-500'>{dayOfWeek}, {hour}</span>
       <div className='flex flex-col items-center space-y-2'>
         <Image
           className=''
@@ -19,8 +37,8 @@ const Home: NextPage = () => {
           width={200}
           height={200}
         />
-        <span className='font-semibold text-5xl'>28&deg;</span>
-        <span className='text-xl text-slate-500'>Prartly Cloudy</span>
+        <span className='font-semibold text-5xl'>{API.current.temp.toFixed(0)}&deg;</span>
+        <span className='text-xl text-slate-500'>{API.current.weather[0].main}</span>
       </div>
       <section className='bg-slate-100 rounded-xl text-xl mt-auto'>
         <div className='p-4 space-y-5'>
@@ -34,7 +52,7 @@ const Home: NextPage = () => {
             ))}
           </div>
         </div>
-        <LineChart data={TODAY} />
+        <LineChart data={API.hourly} />
       </section>
     </main>
   )

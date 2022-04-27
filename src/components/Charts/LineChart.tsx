@@ -8,21 +8,47 @@ const PADDING = 20;
 
 const R = 5;
 
+type Temperature = number | null
+type Hour = string | null
+
 export type Point = {
 	x: number,
 	y: number,
 	point: boolean,
-	hour: string | null,
-	nimTemperature: number | null,
-	maxTemperature: number | null,
+	hour: Hour,
+	nimTemperature: Temperature,
+	maxTemperature: Temperature,
 	icon: string
 }
 
+interface Weather {
+  id: number,
+  main: string,
+  description: string,
+  icon: string
+}
+
+interface Hourly {
+  dt: number,
+  temp: number,
+  feels_like: number,
+  pressure: number,
+  humidity: number,
+  dew_point: number,
+  uvi: number,
+  clouds: number,
+  visibility: number,
+  wind_speed: number,
+  wind_deg: number,
+  wind_gust: number,
+  weather: Weather[],
+  pop: number
+}
+
 export type Data = {
-	value: number,
-	hour: string,
-	nimTemperature: number | null,
-	maxTemperature: number | null,
+  dt: number,
+  temp: number,
+  feels_like: number,
 	icon: string,
 }
 
@@ -39,18 +65,18 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
   const minXValue = 0;
   const maxXValue = data.length - 1;
 
-  const minYValue = Math.min(...data.map((d) => d.value));
-  const maxYValue = Math.max(...data.map((d) => d.value));
+  const minYValue = Math.min(...data.map((d) => d.temp));
+  const maxYValue = Math.max(...data.map((d) => d.temp));
 
 
   const points = data.reduce(
-    (result: Point[], { value, hour, nimTemperature, maxTemperature, icon }, index) => {
+    (result: Point[], { temp, dt, feels_like, icon }, index) => {
       const detailsVisible = index !== 0 && index !== maxXValue;
 
       const x = map(index, minXValue, maxXValue, 0, width);
 
       const y = map(
-        value,
+        temp,
         maxYValue,
         minYValue,
         height - 2.5 * PADDING, // height - PADDING,
@@ -61,9 +87,9 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
         x,
         y,
         point: index === 3,
-        hour: detailsVisible ? hour : null,
-        nimTemperature: detailsVisible ? nimTemperature : null,
-        maxTemperature: detailsVisible ? maxTemperature : null,
+        hour: detailsVisible ? dt : null,
+        temp: detailsVisible ? temp : null,
+        feels_like: detailsVisible ? feels_like : null,
         icon
       };
 
@@ -88,7 +114,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
       <Path points={points} />
       {points.map(
         (
-          { x, y, point, hour, nimTemperature, maxTemperature, icon },
+          { x, y, point, dt, temp, feels_like, icon },
           index
         ) => (
           <React.Fragment key={index}>
@@ -101,13 +127,13 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
             {/* {icon && (
               // <image xlinkHref={icon} height="200" width="200" />
             )} */}
-            {maxTemperature && (
-              <Text x={x} y={y - 2 * PADDING} text={maxTemperature} />
+            {temp && (
+              <Text x={x} y={y - 2 * PADDING} text={temp} />
             )}
-            {nimTemperature && (
-              <Text x={x} y={y - PADDING} text={nimTemperature} />
+            {feels_like && (
+              <Text x={x} y={y - PADDING} text={feels_like} />
             )}
-            {hour && <Text x={x} y={y + PADDING} text={hour} className={'text-xl text-slate-500'} />}
+            {dt && <Text x={x} y={y + PADDING} text={dt} className={'text-xl text-slate-500'} />}
           </React.Fragment>
         )
       )}

@@ -73,10 +73,10 @@ export const WEEK = [
 ]
 
 export const AIR_CONDITION = [
-  { color: 'green', index: 0, size: 1 },
-  { color: 'yellow', index: 50, size: 1 },
-  { color: 'orange', index: 100, size: 1 },
-  { color: 'red', index: 150, size: 1 },
-  { color: 'purple', index: 200, size: 2 },
-  { color: 'rose', index: 300, size: 6 },
+  { color: 'bg-green-500', index: 0, size: 'w-1/12' },
+  { color: 'bg-yellow-500', index: 50, size: 'w-1/12' },
+  { color: 'bg-orange-500', index: 100, size: 'w-1/12' },
+  { color: 'bg-red-500', index: 150, size: 'w-1/12' },
+  { color: 'bg-purple-500', index: 200, size: 'w-2/12' },
+  { color: 'bg-rose-500', index: 300, size: 'w-6/12' },
 ]

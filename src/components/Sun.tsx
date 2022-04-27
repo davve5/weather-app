@@ -2,20 +2,20 @@ import React from "react";
 
 const Sun: React.FC = () => {
   return (
-    <div className="bg-black">
-      <svg viewBox="0 0 320 320" width="300">
+    <div className="">
+      <svg viewBox="0 0 320 320" width="500">
         <defs>
           <linearGradient id="0" x1="0.5" y1="1" x2="0.5" y2="0">
-            <stop offset="0%" stop-color="#ffffff" />
-            <stop offset="100%" stop-color="#ffd824" />
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="100%" stopColor="#ffd824" />
           </linearGradient>
         </defs>
 
-        <clipPath id="myClip">
+        <clipPath id="sun">
           <rect width={95} height={100} fill="url(#0)" />
         </clipPath>
         <path
-          id="road"
+          id="sun-road"
           strokeWidth="2"
           stroke="#FFD824"
           strokeDasharray="8"
@@ -23,7 +23,7 @@ const Sun: React.FC = () => {
         />
         <circle cx={0} cy={100} r={5} fill="#FFD824" />
         <circle cx={200} cy={100} r={5} fill="#FFD824" />
-        <use clip-path="url(#myClip)" href="#road" fill="url(#0)" />
+        <use clipPath="url(#sun)" href="#sun-road" fill="url(#sun)" />
       </svg>
     </div>
   );
