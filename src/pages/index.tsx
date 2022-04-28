@@ -15,7 +15,7 @@ interface HomeProps {
   country: string,
 }
 
-const Home: NextPage<HomeProps> = ({ geo, weather, city, country }) => {
+const Home: NextPage<HomeProps> = ({ geo, weather, city, country }: any) => {
   const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
 
   console.log(geo)
