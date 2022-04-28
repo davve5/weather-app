@@ -15,14 +15,13 @@ interface HomeProps {
   country: string,
 }
 
-const Home: NextPage<HomeProps> = ({ geo, weather, city, country }: any) => {
+const Home: NextPage<HomeProps> = ({ weather, city, country }) => {
   const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
-
-  console.log(geo)
+  const getCountyName = new Intl.DisplayNames(['en'], {type: 'region'})
 
   return (
     <main className="p-5 flex flex-col min-h-screen">
-      <h1 className="font-semibold text-3xl">{city}, {country}</h1>
+      <h1 className="font-semibold text-3xl">{city}, {getCountyName.of(country)}</h1>
       <span className='text-xl text-slate-500'>{dayOfWeek}, {hour}</span>
       <div className='flex flex-col items-center space-y-2'>
         <Image
@@ -56,15 +55,13 @@ const Home: NextPage<HomeProps> = ({ geo, weather, city, country }: any) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { city, country, latitude, longitude } = JSON.parse(req.cookies.geo)
 
-  const geo = JSON.parse(req.cookies.geo)
-
 	const API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=minutely&appid=${process.env.WEATHER_API_KEY}`
   
   const response = await fetch(API_URL);
-  const data = await response.json();
+  const weather = await response.json();
 
   return {
-    props: { geo: geo, city, country, weather: data },
+    props: { city, country, weather },
   };
 };
 
