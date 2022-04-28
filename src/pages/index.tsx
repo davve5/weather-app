@@ -54,6 +54,8 @@ const Home: NextPage<HomeProps> = ({ weather, city, country }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { city, country, latitude, longitude } = JSON.parse(req.cookies.geo)
 
+  console.log('geo', JSON.parse(req.cookies.geo))
+
 	const API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=minutely&appid=${process.env.WEATHER_API_KEY}`
   
   const response = await fetch(API_URL);
