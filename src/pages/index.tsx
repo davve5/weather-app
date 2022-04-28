@@ -15,8 +15,10 @@ interface HomeProps {
   country: string,
 }
 
-const Home: NextPage<HomeProps> = ({ weather, city, country }) => {
+const Home: NextPage<HomeProps> = ({ geo, weather, city, country }) => {
   const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
+
+  console.log(geo)
 
   return (
     <main className="p-5 flex flex-col min-h-screen">
@@ -54,7 +56,7 @@ const Home: NextPage<HomeProps> = ({ weather, city, country }) => {
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const { city, country, latitude, longitude } = JSON.parse(req.cookies.geo)
 
-  console.log('geo', JSON.parse(req.cookies.geo))
+  const geo = JSON.parse(req.cookies.geo)
 
 	const API_URL = `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&units=metric&exclude=minutely&appid=${process.env.WEATHER_API_KEY}`
   
@@ -62,7 +64,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const data = await response.json();
 
   return {
-    props: { city, country, weather: data },
+    props: { geo: geo, city, country, weather: data },
   };
 };
 
