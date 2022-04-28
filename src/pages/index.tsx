@@ -17,7 +17,7 @@ interface HomeProps {
 
 const Home: NextPage<HomeProps> = ({ weather, city, country }) => {
   const { dayOfWeek, hour } = convertDtToDate(weather?.current?.dt)
-  const getCountyName = new Intl.DisplayNames(['en'], {type: 'region'})
+  const getCountyName = new Intl.DisplayNames(['en'], { type: 'region' })
 
   return (
     <main className="p-5 flex flex-col min-h-screen">
